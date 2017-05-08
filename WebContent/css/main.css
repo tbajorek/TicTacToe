@@ -1,0 +1,131 @@
+html, body, .container, .row:first-of-type > div {
+    height: 100%;
+}
+.row:first-of-type {
+    height: 70%;
+}
+
+/* ----- Board ----- */
+#board {
+    height: 100%;
+    width: 100%;
+    border-spacing: 5px;
+    border-collapse: separate;
+}
+
+#board td {
+    width: 33.333333%;
+    height: 33.333333%;
+    background: #bef9e0;
+    border: 2px solid #019278;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: #015d40;
+}
+
+#board td:hover {
+    background: #9de7ff;
+    border: 2px solid #00847b;
+}
+
+#board td.busy {
+    background-color: #eaf0ef !important;
+    cursor: help;
+}
+
+#board td.win {
+    background-color: #139013 !important;
+    color: #c9ffc7;
+}
+
+#board td.lost {
+    background-color: #9b1515 !important;
+    color: #efbdb5;
+}
+
+#board.inactive * {
+    opacity: 0.5;
+    cursor: auto !important;
+}
+
+#board.waiting * {
+    cursor: wait !important;
+}
+
+#board.waiting {
+    background-color: #ffd3c7;
+}
+
+#board.gaming {
+    background-color: #d5ffcc;
+}
+
+/* ----- Player list ----- */
+#plist {
+    overflow: auto;
+    background-color: #fffeb3;
+    height: 80%;
+    padding: 0px;
+}
+
+#plist .player {
+    padding: 5px;
+}
+
+#plist .player.row1 {
+    background-color: #d5d5d5;
+}
+
+#plist .player.row2 {
+    background-color: #eaeaea;
+}
+
+#plist .player:hover {
+    background-color: #646464;
+    color: #e3e3e3;
+}
+
+#plist .player.in-game {
+    font-weight: bold;
+}
+
+#plist .player.current {
+    color: green;
+}
+
+#plist .player.enemy {
+    color: red;
+}
+
+/* ----- Status ----- */
+#panel {
+    margin: 8px 0px 8px 0px;
+}
+
+#signinfo {
+    float: right;
+}
+
+#signinfo > text {
+    font-weight: bold;
+}
+
+#link2github {
+    margin: auto;
+    text-align: center;
+}
+
+#link2github > a {
+    text-decoration: none;
+    padding: 5px;
+    color: #0088ff;
+    background-color: white;
+}
+
+#link2github > a:hover {
+    color: white;
+    background-color: #0088ff;
+}
