@@ -209,7 +209,6 @@
 
         element.on('finish', function(e) {
             setWinner((e.positions));
-            setTimeout(function(){deactivate();}, 3000);
         });
     };
 

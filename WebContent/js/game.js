@@ -8,7 +8,7 @@ function Game(params) {
         }
         url = url.replace(/^https?\:\/\//, 'ws://');
     }
-    console.log(url);
+
     var data = {
         "socket": new Connection(url),
         "pname": null,
@@ -21,19 +21,19 @@ function Game(params) {
     params.plist.playerlist();
     data.disconnectBtn.attr('disabled', '');
 
-    var setPlayerName = function(pname) {
-        data.pname = pname;
-        var event = jQuery.Event("setname");
-        event.name = pname;
-        params.plist.trigger(event);
-    };
-
     var setStatus = function(name) {
         data.status.html(name);
         params.panel.find('#signinfo').html('');
     };
 
     setStatus('Niepołączony');
+
+    var setPlayerName = function(pname) {
+        data.pname = pname;
+        var event = jQuery.Event("setname");
+        event.name = pname;
+        params.plist.trigger(event);
+    };
 
     data.socket.setOpenHandler(function(e){
         setStatus('Połączony, oczekuję na grę...');
@@ -54,7 +54,6 @@ function Game(params) {
 
     var setSignInfo = function(sign) {
         var html = 'Twój znak:&nbsp;<text>'+sign+'</text>';
-        console.log(params.panel.find('#signinfo'));
         params.panel.find('#signinfo').html(html);
     };
 
@@ -66,10 +65,12 @@ function Game(params) {
         setSignInfo(player.sign);
     };
 
-    var deactivate = function() {
+    var deactivate = function(status) {
         var event = jQuery.Event("inactive");
         params.board.trigger(event);
-        setStatus('Połączony, oczekuję na grę...');
+        if (status) {
+            setStatus('Połączony, oczekuję na grę...');
+        }
     };
 
     var connect = function(e) {
@@ -93,12 +94,16 @@ function Game(params) {
 
     var onDisconnect = function(e) {
         params.board.trigger('inactive');
-        deactivate();
+        deactivate(false);
         setPlayerList([]);
         data.connectBtn.removeAttr('disabled');
         data.disconnectBtn.attr('disabled', '');
-        gameAlert('Zostałeś rozłączony.');
         setStatus('Niepołączony');
+        if(e.wasClean) {
+            gameAlert('Zostałeś rozłączony.');
+        } else {
+            gameAlert('Zostałeś rozłączony z komunikatem:'+ e.reason);
+        }
     };
 
     data.socket.setCloseHandler(function(e){
@@ -128,6 +133,7 @@ function Game(params) {
         var event = jQuery.Event("finish");
         event.positions = positions;
         params.board.trigger(event);
+        setTimeout(function(){deactivate(true);}, 3000);
     };
 
     var turnBackMove = function() {
@@ -152,7 +158,7 @@ function Game(params) {
                 break;
             case "walkover":
                 gameAlert('Przeciwnik opuścił grę. Wygrałeś!');
-                deactivate();
+                deactivate(true);
                 break;
             case "win":
                 gameAlert('Wygrałeś!');
@@ -164,7 +170,7 @@ function Game(params) {
                 break;
             case "tie":
                 gameAlert('Remis!');
-                setTimeout(function(){deactivate();}, 3000);
+                setTimeout(function(){deactivate(true);}, 3000);
                 break;
             case "errormove":
                 gameAlert('Ruch nie mógł zostać wykonany. Spróbuj ponownie.');

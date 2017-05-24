@@ -42,18 +42,13 @@ public class PlayersList {
 		Iterator<Player> it = players.iterator();
 		while (it.hasNext()) {
 			Player player = it.next();
-			if(!player.getId().equals(enemy.getId())) {
-				foundPlayer = player;
-			}
-	    }
-		it = players.iterator();
-		while (it.hasNext()) {
-			Player player = it.next();
-			if(foundPlayer == null) {
-				foundPlayer = player;
-			} else {
-				if (foundPlayer.getScore() > player.getScore() && !player.getId().equals(enemy.getId())) {
+			if (!player.getId().equals(enemy.getId())) {
+				if(foundPlayer == null) {
 					foundPlayer = player;
+				} else {
+					if (foundPlayer.getScore() > player.getScore()) {
+						foundPlayer = player;
+					}
 				}
 			}
 	    }
