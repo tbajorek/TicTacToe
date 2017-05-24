@@ -24,13 +24,39 @@ import com.google.gson.Gson;
 		decoders = { MessageDecoder.class }
 )
 public class Server {
+	/**
+	 * Random generator
+	 */
 	private static Random random = new Random();
+	
+	/**
+	 * List of all clients connections
+	 */
 	private static Set<Session> clients = 
 		    Collections.synchronizedSet(new HashSet<Session>());
+	
+	/**
+	 * List of all players
+	 */
 	private static PlayersList playerslist = new PlayersList();
+	
+	/**
+	 * List of two players who are fighting for the current time
+	 */
 	private static List<Player> fighters = new ArrayList<Player>(2);
+	
+	/**
+	 * Board object
+	 */
 	private static Board board = new Board();
 	
+	/**
+	 * Callback for coming messages
+	 * @param input Message Object
+	 * @param session Sesion Object
+	 * @throws IOException Thrown when an error with I/O operations occured
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	@OnMessage
 	public void onMessage(Message input, Session session) 
 			throws IOException, EncodeException {
@@ -49,6 +75,10 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Callback for opening a new connection
+	 * @param session Session object
+	 */
 	@OnOpen
 	public void onOpen(Session session) {
 		clients.add(session);
