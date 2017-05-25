@@ -16,8 +16,9 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
-import com.google.gson.Gson;
-
+/**
+ * Main class of Websocket server
+ */
 @ServerEndpoint(
 		value = "/game", 
 		encoders = { MessageEncoder.class }, 
@@ -53,8 +54,8 @@ public class Server {
 	/**
 	 * Callback for coming messages
 	 * @param input Message Object
-	 * @param session Sesion Object
-	 * @throws IOException Thrown when an error with I/O operations occured
+	 * @param session Session Object
+	 * @throws IOException Thrown when an error with I/O operations occurred
 	 * @throws EncodeException Thrown when encoder can't encode outgoing message
 	 */
 	@OnMessage
@@ -88,6 +89,10 @@ public class Server {
 		System.out.println("Client connected");
 	}
 	
+	/**
+	 * Callback for closing a connection
+	 * @param session Session object
+	 */
 	@OnClose
 	public void onClose(Session session) {
 		Player player = playerslist.getById(session.getId());
@@ -104,6 +109,15 @@ public class Server {
 		System.out.println("Connection closed");
 	}
 	
+	/**
+	 * Action called when a new player joins to the game
+	 * @param input Input message
+	 * @param output Output message
+	 * @param session Session of a new player
+	 * @return
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private boolean onNewPlayer(Message input, Message output, Session session) throws IOException, EncodeException {
 		Player player = playerslist.getById(session.getId());
 		player.setName(input.getData().getPlayer().getName());
@@ -123,6 +137,11 @@ public class Server {
 		return false;
 	}
 	
+	/**
+	 * Action called when a new game starts
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private void onStartTheGame() throws IOException, EncodeException {
 		Message startMsg = new Message();
 		startMsg.setType("startgame");
@@ -143,6 +162,15 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Action called when a player, who is fighting, makes a move
+	 * @param input Input message
+	 * @param output Output message
+	 * @param session Session of the player who has made a move
+	 * @return
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private boolean onMove(Message input, Message output, Session session) throws IOException, EncodeException {
 		Message moveMsg = new Message();
 		moveMsg.setType("move");
@@ -174,6 +202,13 @@ public class Server {
 		return false;
 	}
 	
+	/**
+	 * Action called after one player left the fighting. The second player wins.
+	 * @param player The player who is still staying in the game
+	 * @param session Session object of the player
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private void onWalkover(Player player, Session session) throws IOException, EncodeException {
 		Player enemy = findEnemy(player);
 		enemy.incrementScore();
@@ -181,12 +216,19 @@ public class Server {
 		Message response = new Message();
 		response.setType("walkover");
 		callEnemyMessage(enemy, response);
-		fighters.remove(player);
 		playerslist.remove(player);
 		clients.remove(session);
-		setNewFight(player);
+		setNewFight(enemy);
 	}
 	
+	/**
+	 * Action called when nobody of fighting players won
+	 * @param player First player
+	 * @param enemy Second player
+	 * @param session Session of player connection
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private void onTie(Player player, Player enemy, Session session) throws IOException, EncodeException {
 		Message tieMsg = new Message();
 		tieMsg.setType("tie");
@@ -198,6 +240,11 @@ public class Server {
 		setNewFight(fighters.get(0));
 	}
 	
+	/**
+	 * Send a broadcast message with players list to all players
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private void broadWithList() throws IOException, EncodeException {
 		Message broadMsg = new Message();
 		broadMsg.setType("list")
@@ -209,6 +256,13 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Send the given message to the enemy
+	 * @param enemy Enemy player
+	 * @param message Message object
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private void callEnemyMessage(Player enemy, Message message) throws IOException, EncodeException {
 		synchronized(clients) {
 			for(Session client : clients){
@@ -219,6 +273,12 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Set a new fight between the given player and other player chosen from players list.
+	 * @param player Player who stays in game. The second player will be his enemy.
+	 * @throws IOException Thrown when an error with I/O operations occurred
+	 * @throws EncodeException Thrown when encoder can't encode outgoing message
+	 */
 	private void setNewFight(Player player) throws IOException, EncodeException {
 		if(playerslist.size() > 1) {
 			Player enemy = findEnemy(player);
@@ -243,6 +303,11 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Find a second player who is fighting now against the given player
+	 * @param player Player object
+	 * @return
+	 */
 	private Player findEnemy(Player player) {
 		if (fighters.size() < 2) {
 			return new Player();

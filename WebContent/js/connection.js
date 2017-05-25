@@ -1,5 +1,5 @@
 /**
- *
+ * Class of WebSocket connection which offers a basic service of the most common operations
  * @param url Url where a WebSocket server is listening
  * @constructor
  */
@@ -35,6 +35,10 @@ function Connection(url) {
     this.open = function() {
         socket = new WebSocket(url);
 
+        /**
+         * The handler is called when a new message comes from server
+         * @param event Event object
+         */
         socket.onmessage = function(event) {
             if (typeof event.data == 'string') {
                 var message = JSON.parse(event.data);
@@ -44,15 +48,28 @@ function Connection(url) {
             }
         };
 
+        /**
+         * The handler is called when a connection has been established
+         * @type {Function}
+         */
         socket.onopen = onOpen;
+
+        /**
+         * The handler is called when a connection has been closed
+         * @type {Function}
+         */
         socket.onclose = onClose;
 
+        /**
+         * The handler is called when an error has been ocured
+         * @param event Event object
+         */
         socket.onerror = function(event) {
             gameAlert('Wystapił błąd podczas komunikacji z serwerem. Spróbuj oddświeżyć stronę i ponownie się połączyć.');
         };
     };
     /**
-     *
+     * Check if a connection is established
      * @returns {boolean}
      */
     this.isConnected = function() {

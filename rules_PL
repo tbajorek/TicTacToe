@@ -1,0 +1,16 @@
+Zasady:
+1. Podczas logowania każdy gracz podaje swój nick.
+2. Jeżeli uda się nawiązanie połączenia, gracz zostaje dodany do listy.
+3. Gra może się rozpocząć, jeśli na liście znajdzie się co najmniej dwóch graczy.
+4. Do gry może dołączyć dowolna ilość graczy, z których nie wszyscy będą zawsze w rozgrywce.
+5. W rozgrywce może uczestniczyć wyłącznie dwóch graczy w jednym momencie. Reszta oczekuje na swoją kolej.
+6. Znaki używane przez graczy są losowane przed każdą rozgrywką.
+7. Po rozpoczęciu rozgrywki pierwszy ruch zawsze wykonuje gracz, który wylosował kółko "O".
+8. Gracze zapełniają planszę naprzemiennie, po jednym znaku.
+9. Wygrywa osoba, której uda się postawić swoje trzy znaki w dowolnej kolumnie, wierszu lub na jednej z przekątnych.
+10. Zwycięzca pozostaje w grze do następnej rozgrywki, a do niego jest wybierany przeciwnik, który ma najmniejszą ilość punktów spośród graczy na liście.
+10. Jeżeli żaden gracz nie ustawi swoich znaków w zwycięskiej konfiguracji, zanim skończą się dostępne ruchy, gra kończy się remisem.
+11. Po remisie obydwaj gracze kończą rozgrywkę i do następnej jest losowanych dwóch zawodników.
+12. W  przypadku rozłączenia się gracza traci on swoje punkty.
+13. Jeżeli gracz prowadzący rozgrywkę opuści grę, wówczas jego przeciwnik automatycznie wygrywa grę.
+14. Czas oczekiwania na ruch gracza nie jest ograniczony.

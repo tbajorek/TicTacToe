@@ -18,6 +18,9 @@
         };
         var element = $(this);
 
+        /**
+         * Check if the current player is in the current game
+         */
         var checkInGame = function() {
             for(var i in list) {
                 if(list[i].name==player.name) {
@@ -54,7 +57,7 @@
         });
 
         /**
-         * Haandling of "setname" event which sets the given player name
+         * Handling of "setname" event which sets the given player name
          */
         element.on('setname', function(e){
             player.name = e.name;
