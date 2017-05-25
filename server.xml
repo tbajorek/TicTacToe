@@ -13,4 +13,5 @@
     <webApplication id="tictactoe" location="TicTacToe.war" name="tictactoe"/>
 
     <applicationMonitor updateTrigger="mbean"/>
+    <webApplication id="TicTacToe" context-root="/" location="TicTacToe.war" name="TicTacToe" type="war" />
 </server>
