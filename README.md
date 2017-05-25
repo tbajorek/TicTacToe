@@ -11,8 +11,8 @@ A popular game for two players, using websocket and Java EE 1.7
 3. Vex v3.0.0 [LINK](https://github.com/HubSpot/vex)
 4. Gson v2.8.0 [LINK](https://github.com/google/gson)
 
-# links
+# Links
 [WebSocket debugger for Firefox](https://addons.mozilla.org/en-US/firefox/addon/websocket-monitor/)
 
-#Author
+# Author
 Tomasz Bajorek [www](http://tbajorek.pl)
