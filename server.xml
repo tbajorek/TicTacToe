@@ -1,0 +1,16 @@
+<server description="websocket server">
+
+    <!-- Enable features -->
+    <featureManager>
+    	<feature>websocket-1.1</feature>
+        <feature>localConnector-1.0</feature>
+        <feature>servlet-3.1</feature>
+    </featureManager>
+
+    <!-- To access this server from a remote client add a host attribute to the following element, e.g. host="*" -->
+    <httpEndpoint host="*" httpPort="8080" httpsPort="8081" id="defaultHttpEndpoint"/>
+
+    <webApplication id="tictactoe" location="TicTacToe.war" name="tictactoe"/>
+
+    <applicationMonitor updateTrigger="mbean"/>
+</server>
