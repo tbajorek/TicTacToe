@@ -16,3 +16,6 @@ A popular game for two players, using websocket and Java EE 1.7
 
 # Author
 Tomasz Bajorek [www](http://tbajorek.pl)
+
+# Presentation
+Presentation about WebSocket is located [HERE](https://prezi.com/bwxuuvsfplfi/websocket/)
